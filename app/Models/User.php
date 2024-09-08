@@ -44,4 +44,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /* ini merupakan relasi dari model User ke model Voter
+    relasi ini merupakan relasi one to one
+    jadi satu user hanya memiliki satu voter
+    */
+    public function voter()
+    {
+        return $this->hasOne(Voter::class);
+    }
 }
