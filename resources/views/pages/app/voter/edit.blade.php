@@ -21,12 +21,10 @@
                     <form action="{{ route('app.voter.update', $voter->id) }}" method="POST">
                         @csrf
                         @method('PUT')
-
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" name="email" id="email"
-                                class="form-control @error('email') is-invalid @enderror"
-                                value="{{ old('email', $voter->email) }}" placeholder="Enter email">
+                                class="form-control @error('email') is-invalid @enderror"  placeholder="Enter email" value="{{ old('email', $voter->user->email) }}">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -46,15 +44,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="role">Role</label>
-                            <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
-                                <option value="">Select Role</option>
-                                @foreach ($roles as $role)
-                                    <option value="{{ $role->name }}" @if ($role->name == $voter->roles->first()->name) selected @endif>
-                                        {{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('role')
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name"
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Enter name" value="{{ old('name',$voter->name) }} ">
+                            @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

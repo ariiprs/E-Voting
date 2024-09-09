@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VoterStoreRequest;
+use App\Http\Requests\VoterUpdateRequest;
 use App\Models\User;
 use App\Models\Voter;
 use Illuminate\Http\Request;
@@ -71,7 +72,9 @@ class VoterController extends Controller implements HasMiddleware
      */
     public function show(string $id)
     {
-        //
+        $voter = Voter::findorFail($id);
+
+        return view('pages.app.voter.show', compact('voter'));
     }
 
     /**
@@ -79,7 +82,7 @@ class VoterController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
-        $voter = Voter::findOrFail($id);
+        $voter = Voter::findorFail($id);
 
         return view('pages.app.voter.edit', compact('voter'));
     }
@@ -87,9 +90,25 @@ class VoterController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(VoterUpdateRequest $request, string $id)
     {
-        //
+        try {
+            $voter = Voter::findorFail($id);
+
+            $voter->user->update([
+                'email'=> $request->email,
+                'password'=> $request->password ? bcrypt($request->password) : $voter->user->password,
+            ]);
+
+            $voter->update([
+                'name' => $request->name,
+            ]);
+
+
+            return redirect()->route('app.voter.index')->with('success', 'voter updated successfully');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error'=> 'Failed to update account' . $e->getMessage()]);
+        }
     }
 
     /**
@@ -97,6 +116,14 @@ class VoterController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+         try {
+            $voter = Voter::findorFail($id);
+
+            $voter->delete();
+
+            return redirect()->route('app.voter.index')->with('success', 'voter deleted successfully');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error'=> 'Failed to delete account' . $e->getMessage()]);
+        }
     }
 }

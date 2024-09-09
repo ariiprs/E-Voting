@@ -24,8 +24,7 @@
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" name="email" id="email"
-                                class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
-                                placeholder="Enter email">
+                                class="form-control @error('email') is-invalid @enderror" placeholder="Enter email" value="{{ old('email') }}">
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -47,7 +46,7 @@
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name"
-                                class="form-control @error('name') is-invalid @enderror" placeholder="Enter name">
+                                class="form-control @error('name') is-invalid @enderror" placeholder="Enter name" value="{{ old('name') }}">
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

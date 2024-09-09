@@ -27,6 +27,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -36,6 +37,13 @@
                                     <tr>
                                         <td>{{ $voter->name }}</td>
                                         <td>{{ $voter->user->email }}</td>
+                                        <td>
+                                            @if ($voter->vote)
+                                                <span class="badge badge-success text-white">Already Voted</span>
+                                            @else
+                                                <span class="badge badge-danger text-white">Not Voted</span>
+                                            @endif
+                                        </td>
                                         <td>
 
                                             @can('voter-update')
